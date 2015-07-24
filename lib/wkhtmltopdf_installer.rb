@@ -1,4 +1,4 @@
-require_relative 'wkhtmltopdf_installer/version'
+require File.expand_path("../wkhtmltopdf_installer/version.rb", __FILE__)
 
 module WkhtmltopdfInstaller
   extend self
