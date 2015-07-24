@@ -8,9 +8,9 @@ def probe
                when /x86_64-darwin.*/
                  OpenStruct.new(script: 'macos', platform: 'osx-cocoa-x86-64', ext: 'pkg')
                when /x86_64-linux/
-                 OpenStruct.new(script: 'linux', platform: 'linux-trusty-amd64', ext: 'deb')
+                 OpenStruct.new(script: 'linux', platform: "linux-#{distro}-amd64", ext: 'deb')
                when /i[3456]86-linux/
-                 OpenStruct.new(script: 'linux', platform: 'linux-trusty-i386', ext: 'deb')
+                 OpenStruct.new(script: 'linux', platform: "linux-#{distro}-i386", ext: 'deb')
                else
                  raise NotImplementedError "Unsupported ruby platform #{RUBY_PLATFORM}"
              end
@@ -22,6 +22,20 @@ end
 
 def makefile_dir
   File.dirname(__FILE__)
+end
+
+# List of supported distributions: http://wkhtmltopdf.org/downloads.html
+def distro
+    distro = `awk '/^VERSION=|^ID=/ {print}' /etc/*release`.split(/\n+/).map{|h| k,v = h.split('='); {k => v}}.reduce(:merge)
+    distro['VERSION'] = distro['VERSION'].slice(/\(.+\)/).delete('()').split[0].downcase
+    case distro['ID']
+      when 'debian'
+        %w[wheezy jessie].include?(distro['VERSION']) ? distro['VERSION'] : 'wheezy'
+      when 'ubuntu'
+        %w[trusty precise].include?(distro['VERSION']) ? distro['VERSION'] : 'trusty'
+      else
+        'trusty'
+    end
 end
 
 # Some examples:
