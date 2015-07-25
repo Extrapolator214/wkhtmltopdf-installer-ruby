@@ -1,10 +1,9 @@
-require_relative 'lib/wkhtmltopdf_installer/version'
+require File.expand_path("../lib/wkhtmltopdf_installer/version.rb", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = 'wkhtmltopdf-installer'
   s.version     = WkhtmltopdfInstaller::GEM_VERSION
-  s.date        = '2015-01-19'
-  s.summary     = 'Light-weight cross-platform wkhtmltopdf binary installer'
+  s.summary     = 'Light-weight cross-platform (Linux and OSX) wkhtmltopdf binary installer'
   s.description = "Downloads wkhtmltopdf binary during 'Building native extension...' phase"
   s.authors     = ['Vladimir Yartsev']
   s.email       = 'vovayartsev@gmail.com'
